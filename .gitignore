@@ -1,3 +1,9 @@
 data/
 AI_PRD.md
 TODO.md
+docs/notes.md
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.env
