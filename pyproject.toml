@@ -27,7 +27,7 @@ dependencies = [
 ]
 
 [project.scripts]
-saferoutes = "saferoutes:main"
+saferoutes = "saferoutes.cli:app"
 
 [build-system]
 requires = ["uv_build>=0.13.5,<0.14.0"]
@@ -45,6 +45,9 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.format]
+quote-style = "single"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

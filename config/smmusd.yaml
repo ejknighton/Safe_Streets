@@ -1,0 +1,53 @@
+area:
+  id: smmusd
+  name: Santa Monica-Malibu Unified School District
+  # FIPS codes is hte US gov id for places CA is 06
+  boundary: { source: tiger_unified_school_district, state_fips: "06",
+              name: "Santa Monica-Malibu Unified School District" }
+  # max bike distance + margin, so edge schools see full zones
+  buffer_m: 3500 
+  # California Albers -> projected coordinate reference system 
+  # Flattens CA onto a grid measured in meters to measure distances
+  # and areas easier
+  crs: "EPSG:3310"
+
+schools:
+  sources: [cde_pubschls, cde_private, nces_private_locations]
+  # any K-12 school located inside the area boundary
+  select: within_boundary
+  sectors: [public, private]
+  exclude_virtual: ["F"]
+  instruction_levels: [ELEM, INTMIDJR, HS, ELEMHIGH]
+  # Santa Monica and Malibu as separate groups in charts
+  groups: { by: city }           
+
+zones:
+  elementary: { walk_m: 800,  bike_m: 1600 }
+  secondary:  { walk_m: 1600, bike_m: 3200 }
+
+# crashes:
+#   source: tims_manual            # or ccrs (planned)
+#   path: data/manual/tims/smmusd/
+#   years: [2020, 2024]
+#   school_travel_windows: ["07:00-09:00", "14:00-16:30"]
+#   max_snap_m: 30
+
+network:
+  osm: { network_types: [walk, bike], simplify: true }
+  # lts_profile: ca_default        # speed/lane imputation tables live in config/lts/ca_default.yaml
+  # bike_facility_overrides:
+  #   - { source: arcgis_featureserver, url: "<Santa Monica Bike Network FeatureServer>",
+  #       within: "City of Santa Monica" }
+
+# equity:
+#   ces: { version: "5.0" }
+#   acs: { year: 2024, variables: [B19013_001E, B08201_001E, B08201_002E, B09001_001E] }
+#   child_population: { source: dhc_2020_p12, ages: [5, 17] }
+
+# privacy:
+#   hex_resolution: 9
+#   min_cell_count: 3
+
+site:
+  title: "How Safe Is the Walk and Bike to School?"
+  output_dir: site/smmusd
